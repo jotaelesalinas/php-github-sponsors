@@ -1,0 +1,87 @@
+{
+  "data": {
+    "viewer": {
+      "name": "John Doe",
+      "login": "johndoe",
+      "email": "",
+      "url": "https://github.com/johndoe",
+      "sponsorshipsAsMaintainer": {
+        "nodes": [
+			{
+				"id": 1,
+				"tier": {
+					"id": 1,
+					"descriptionHTML": "Super cool tier",
+					"monthlyPriceInDollars": 2,
+					"monthlyPriceInCents": 200,
+					"name": "Supercool"
+				},
+				"sponsorEntity": {
+					"name": "Mike",
+					"login": "mike001",
+					"email": "mike@example.com",
+					"url": "https://github.com/mike001"
+				},
+				"createdAt": "2020-01-01T01:02:03Z"
+			},
+			{
+				"id": 2,
+				"tier": {
+					"id": 1,
+					"descriptionHTML": "Super cool tier",
+					"monthlyPriceInDollars": 2,
+					"monthlyPriceInCents": 200,
+					"name": "Supercool"
+				},
+				"sponsorEntity": {
+					"name": "Susan",
+					"login": "susan002",
+					"email": "susan@example.com",
+					"url": "https://github.com/susan002"
+				},
+				"createdAt": "2020-02-02T01:02:03Z"
+			},
+			{
+				"id": 3,
+				"tier": {
+					"id": 2,
+					"descriptionHTML": "VIP tier",
+					"monthlyPriceInDollars": 100,
+					"monthlyPriceInCents": 10000,
+					"name": "VIP"
+				},
+				"sponsorEntity": {
+					"name": "James Bond",
+					"login": "james007",
+					"email": "james@example.com",
+					"url": "https://github.com/james007"
+				},
+				"createdAt": "2020-07-07T01:02:03Z"
+			},
+			{
+				"id": 4,
+				"tier": {
+					"id": 2,
+					"descriptionHTML": "VIP tier",
+					"monthlyPriceInDollars": 100,
+					"monthlyPriceInCents": 10000,
+					"name": "VIP"
+				},
+				"sponsorEntity": {
+					"name": "Bobby",
+					"login": "bob123",
+					"email": "bobby@example.com",
+					"url": "https://github.com/bob123"
+				},
+				"createdAt": "2020-09-09T01:02:03Z"
+			}
+		],
+        "totalCount": 7,
+        "pageInfo": {
+          "hasNextPage": true,
+          "endCursor": 5
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+    "name": "jotaelesalinas/php-github-sponsors",
+    "type": "library",
+    "description": "See your GitHub sponsors",
+    "keywords": [
+        "jotaelesalinas",
+        "php-github-sponsors"
+    ],
+    "homepage": "https://github.com/jotaelesalinas/php-github-sponsors",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jose Luis Salinas",
+            "email": "jlsalinas@example.com",
+            "homepage": "https://github.com/jotaelesalinas",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "illuminate/collections": "~5.5.0|^6.0|^7.0|^8.10",
+        "illuminate/http": "^7.0|^8.10",
+        "psr/simple-cache": "^1.0",
+        "spatie/data-transfer-object": "^2.5"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "^1.9",
+        "mockery/mockery": "^1.4",
+        "phpunit/phpunit": "^7.5.20|^8.5.8|^9.3.7",
+        "squizlabs/php_codesniffer": "^3.0",
+        "symfony/cache": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "JLSalinas\\GithubSponsors\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JLSalinas\\GithubSponsors\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs src tests",
+        "fix-style": "phpcbf src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

@@ -1,0 +1,18 @@
+{
+  "data": {
+    "viewer": {
+      "name": "John Doe",
+      "login": "johndoe",
+      "email": "",
+      "url": "https://github.com/johndoe",
+      "sponsorshipsAsMaintainer": {
+        "nodes": [],
+        "totalCount": 0,
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    }
+  }
+}

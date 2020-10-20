@@ -1,0 +1,70 @@
+{
+  "data": {
+    "viewer": {
+      "name": "John Doe",
+      "login": "johndoe",
+      "email": "",
+      "url": "https://github.com/johndoe",
+      "sponsorshipsAsMaintainer": {
+        "nodes": [
+			{
+				"id": 5,
+				"tier": {
+					"id": 1,
+					"descriptionHTML": "Super cool tier",
+					"monthlyPriceInDollars": 2,
+					"monthlyPriceInCents": 200,
+					"name": "Supercool"
+				},
+				"sponsorEntity": {
+					"name": "Anna",
+					"login": "anna23",
+					"email": "anna23@example.com",
+					"url": "https://github.com/anna23"
+				},
+				"createdAt": "2020-10-01T01:02:03Z"
+			},
+			{
+				"id": 6,
+				"tier": {
+					"id": 3,
+					"descriptionHTML": "Mega tier",
+					"monthlyPriceInDollars": 1000,
+					"monthlyPriceInCents": 100000,
+					"name": "Mega"
+				},
+				"sponsorEntity": {
+					"name": "Freek",
+					"login": "freekvdv",
+					"email": "freekvdv@example.com",
+					"url": "https://github.com/freekvdv"
+				},
+				"createdAt": "2020-10-02T01:02:03Z"
+			},
+			{
+				"id": 7,
+				"tier": {
+					"id": 2,
+					"descriptionHTML": "VIP tier",
+					"monthlyPriceInDollars": 100,
+					"monthlyPriceInCents": 10000,
+					"name": "VIP"
+				},
+				"sponsorEntity": {
+					"name": "Arnold",
+					"login": "arnoldt800",
+					"email": "arnoldt800@example.com",
+					"url": "https://github.com/arnoldt800"
+				},
+				"createdAt": "2020-10-03T01:02:03Z"
+			}
+		],
+        "totalCount": 7,
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    }
+  }
+}

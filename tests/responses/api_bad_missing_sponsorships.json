@@ -1,0 +1,11 @@
+{
+  "data": {
+    "viewer": {
+      "name": "John Doe",
+      "login": "johndoe",
+      "email": "",
+      "url": "https://github.com/johndoe",
+      "something_that_is_not_sponsorshipsAsMaintainer": 123
+    }
+  }
+}

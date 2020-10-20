@@ -1,0 +1,36 @@
+{
+  "data": {
+    "viewer": {
+      "name": "John Doe",
+      "login": "johndoe",
+      "email": "",
+      "url": "https://github.com/johndoe",
+      "sponsorshipsAsMaintainer": {
+        "nodes": [
+          {
+            "id": 1,
+            "tier": {
+              "id": 1,
+              "descriptionHTML": "Super cool tier",
+              "monthlyPriceInDollars": 2,
+              "monthlyPriceInCents": 200,
+              "name": "Supercool"
+            },
+            "sponsorEntity": {
+              "name": "Mike",
+              "login": "mike001",
+              "email": "mike@example.com",
+              "url": "https://github.com/mike001"
+            },
+            "something_that_id_not_createdAt": 123
+          }
+        ],
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    }
+  }
+}

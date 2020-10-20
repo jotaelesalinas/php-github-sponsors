@@ -1,0 +1,31 @@
+{
+  "data": {
+    "viewer": {
+      "name": "John Doe",
+      "login": "johndoe",
+      "email": "",
+      "url": "https://github.com/johndoe",
+      "sponsorshipsAsMaintainer": {
+        "nodes": [
+          {
+            "id": 1,
+            "tier": {
+              "id": 1,
+              "descriptionHTML": "Super cool tier",
+              "monthlyPriceInDollars": 2,
+              "monthlyPriceInCents": 200,
+              "name": "Supercool"
+            },
+            "something_that_id_not_sponsorEntity": 123,
+            "createdAt": "2020-01-01T01:02:03Z"
+          }
+        ],
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    }
+  }
+}
