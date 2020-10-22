@@ -2,10 +2,8 @@ dist: trusty
 language: php
 
 php:
-  - 7.2
-  - 7.3
   - 7.4
-  - hhvm
+  - 8.0
 
 ## Cache composer
 cache:
@@ -14,7 +12,10 @@ cache:
 
 matrix:
   include:
-    - php: 7.2
+    - php: 7.4
+      env: 'COMPOSER_FLAGS="--prefer-stable --prefer-lowest"'
+  include:
+    - php: 8.0
       env: 'COMPOSER_FLAGS="--prefer-stable --prefer-lowest"'
 
 before_script:
