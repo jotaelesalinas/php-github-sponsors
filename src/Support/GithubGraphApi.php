@@ -8,6 +8,8 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use JLSalinas\GithubSponsors\Exceptions\WrongApiResponseException;
 
+// https://github.com/illuminate/http/blob/f61ecfef0088df838bc9a84454b9ba3b9e7bc1d8/Client/PendingRequest.php#L317
+
 class GithubGraphApi
 {
     protected string $token;
