@@ -1,6 +1,6 @@
 <?php
 
-namespace JLSalinas\GithubSponsors\DTOs;
+namespace JLSalinas\GithubSponsors;
 
 use Spatie\DataTransferObject\DataTransferObject;
 

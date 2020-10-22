@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace JLSalinas\GithubSponsors;
 
-use JLSalinas\GithubSponsors\DTOs\SponsorData;
-use JLSalinas\GithubSponsors\DTOs\SponsorshipData;
-use JLSalinas\GithubSponsors\DTOs\TierData;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 
-use JLSalinas\GithubSponsors\Support\GithubGraphApi;
 use Psr\SimpleCache\CacheInterface as Cache;
 use Illuminate\Support\Collection;
 
@@ -39,7 +35,7 @@ class SponsorshipsTest extends TestCase
             ->andReturn(null);
 
         $api = Mockery::mock(GithubGraphApi::class);
-        $api->shouldReceive('fetchAllSponsorships')
+        $api->shouldReceive('sponsorships')
             ->once()
             ->andReturn([]);
 
@@ -59,7 +55,7 @@ class SponsorshipsTest extends TestCase
             ->never();
 
         $api = Mockery::mock(GithubGraphApi::class);
-        $api->shouldReceive('fetchAllSponsorships')
+        $api->shouldReceive('sponsorships')
             ->never();
 
         $GhSponsorships = new Sponsorships($cache, $api);
@@ -79,7 +75,7 @@ class SponsorshipsTest extends TestCase
             ->andReturn(null);
 
         $api = Mockery::mock(GithubGraphApi::class);
-        $api->shouldReceive('fetchAllSponsorships')
+        $api->shouldReceive('sponsorships')
             ->once()
             ->andReturn(self::response('ok_seven'));
 
@@ -99,7 +95,7 @@ class SponsorshipsTest extends TestCase
             ->never();
 
         $api = Mockery::mock(GithubGraphApi::class);
-        $api->shouldReceive('fetchAllSponsorships')
+        $api->shouldReceive('sponsorships')
             ->never();
 
         $GhSponsorships = new Sponsorships($cache, $api);
@@ -118,7 +114,7 @@ class SponsorshipsTest extends TestCase
             ->never();
 
         $api = Mockery::mock(GithubGraphApi::class);
-        $api->shouldReceive('fetchAllSponsorships')
+        $api->shouldReceive('sponsorships')
             ->never();
 
         $GhSponsorships = new Sponsorships($cache, $api);
@@ -158,7 +154,7 @@ class SponsorshipsTest extends TestCase
             ->never();
 
         $api = Mockery::mock(GithubGraphApi::class);
-        $api->shouldReceive('fetchAllSponsorships')
+        $api->shouldReceive('sponsorships')
             ->never();
 
         $GhSponsorships = new Sponsorships($cache, $api);
@@ -186,7 +182,7 @@ class SponsorshipsTest extends TestCase
             ->never();
 
         $api = Mockery::mock(GithubGraphApi::class);
-        $api->shouldReceive('fetchAllSponsorships')
+        $api->shouldReceive('sponsorships')
             ->never();
 
         $GhSponsorships = new Sponsorships($cache, $api);

@@ -1,10 +1,8 @@
 <?php
 
-namespace JLSalinas\GithubSponsors\DTOs;
+namespace JLSalinas\GithubSponsors;
 
-use DateTime;
 use Spatie\DataTransferObject\DataTransferObject;
-use Carbon\Carbon;
 
 class SponsorshipData extends DataTransferObject
 {

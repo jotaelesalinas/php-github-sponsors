@@ -1,6 +1,6 @@
 <?php
 
-namespace JLSalinas\GithubSponsors\Exceptions;
+namespace JLSalinas\GithubSponsors;
 
 use Exception;
 

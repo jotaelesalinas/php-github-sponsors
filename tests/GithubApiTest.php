@@ -7,9 +7,7 @@ namespace JLSalinas\GithubSponsors;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 
-use JLSalinas\GithubSponsors\Support\GithubGraphApi;
 use Illuminate\Http\Client\PendingRequest;
-use JLSalinas\GithubSponsors\Exceptions\WrongApiResponseException;
 
 class GithubApiTest extends TestCase
 {
@@ -31,7 +29,7 @@ class GithubApiTest extends TestCase
         $api = new GithubGraphApi('asdf', $client);
 
         $this->expectException(WrongApiResponseException::class);
-        $response = $api->fetchAllSponsorships();
+        $response = $api->sponsorships();
     }
 
     protected static function response(string $name)
@@ -52,7 +50,7 @@ class GithubApiTest extends TestCase
         $api = new GithubGraphApi('asdf', $client);
 
         $this->expectException(WrongApiResponseException::class);
-        $response = $api->fetchAllSponsorships();
+        $response = $api->sponsorships();
     }
 
     public function testThrowsOnMissingViewer()
@@ -68,7 +66,7 @@ class GithubApiTest extends TestCase
         $api = new GithubGraphApi('asdf', $client);
 
         $this->expectException(WrongApiResponseException::class);
-        $response = $api->fetchAllSponsorships();
+        $response = $api->sponsorships();
     }
 
     public function testThrowsOnMissingSponsorships()
@@ -84,7 +82,7 @@ class GithubApiTest extends TestCase
         $api = new GithubGraphApi('asdf', $client);
 
         $this->expectException(WrongApiResponseException::class);
-        $response = $api->fetchAllSponsorships();
+        $response = $api->sponsorships();
     }
 
     public function testThrowsOnMissingNodes()
@@ -100,7 +98,7 @@ class GithubApiTest extends TestCase
         $api = new GithubGraphApi('asdf', $client);
 
         $this->expectException(WrongApiResponseException::class);
-        $response = $api->fetchAllSponsorships();
+        $response = $api->sponsorships();
     }
 
     public function testGetsOnePage()
@@ -115,7 +113,7 @@ class GithubApiTest extends TestCase
 
         $api = new GithubGraphApi('asdf', $client);
 
-        $response = $api->fetchAllSponsorships();
+        $response = $api->sponsorships();
         $this->assertEquals(4, count($response));
     }
 
@@ -131,7 +129,7 @@ class GithubApiTest extends TestCase
 
         $api = new GithubGraphApi('asdf', $client);
 
-        $response = $api->fetchAllSponsorships();
+        $response = $api->sponsorships();
         $this->assertEquals(0, count($response));
     }
 
@@ -153,7 +151,7 @@ class GithubApiTest extends TestCase
 
         $api = new GithubGraphApi('asdf', $client);
 
-        $response = $api->fetchAllSponsorships();
+        $response = $api->sponsorships();
         $this->assertEquals(7, count($response));
     }
 }

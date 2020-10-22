@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace JLSalinas\GithubSponsors;
 
-use JLSalinas\GithubSponsors\Support\GithubGraphApi;
-use JLSalinas\GithubSponsors\DTOs\SponsorshipData;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
+
 use Psr\SimpleCache\CacheInterface as Cache;
+use Psr\SimpleCache\InvalidArgumentException;
 
 class Sponsorships
 {
@@ -34,21 +34,33 @@ class Sponsorships
     protected function fetchSponsorships(bool $refreshCache = false): void
     {
         if ($refreshCache) {
-            $this->sponsorships = static::apiToDtoCollection($this->api->fetchAllSponsorships());
-            $this->cache->set(
-                'github-sponsorships',
-                $this->sponsorships,
-                Carbon::now()->addMinutes($this->cacheMinutes)
-            );
-        } else {
-            $data = $this->cache->get('github-sponsorships', null);
-            if (!$data) {
-                $data = static::apiToDtoCollection($this->api->fetchAllSponsorships());
+            $this->sponsorships = static::apiToDtoCollection($this->api->sponsorships());
+            try {
                 $this->cache->set(
                     'github-sponsorships',
-                    $data,
+                    $this->sponsorships,
                     Carbon::now()->addMinutes($this->cacheMinutes)
                 );
+            } catch (InvalidArgumentException $e) {
+                // do nothing
+            }
+        } else {
+            try {
+                $data = $this->cache->get('github-sponsorships', null);
+            } catch (InvalidArgumentException $e) {
+                $data = null;
+            }
+            if (!$data) {
+                $data = static::apiToDtoCollection($this->api->sponsorships());
+                try {
+                    $this->cache->set(
+                        'github-sponsorships',
+                        $data,
+                        Carbon::now()->addMinutes($this->cacheMinutes)
+                    );
+                } catch (InvalidArgumentException $e) {
+                    // do nothing
+                }
             }
             $this->sponsorships = $data;
         }
