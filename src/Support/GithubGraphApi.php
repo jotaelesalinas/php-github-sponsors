@@ -92,7 +92,10 @@ EOT,
             throw WrongApiResponseException::missingField('viewer.sponsorshipsAsMaintainer.nodes');
         }
 
-        $currentSponsorships = array_merge($currentSponsorships, Arr::get($response, 'data.viewer.sponsorshipsAsMaintainer.nodes'));
+        $currentSponsorships = array_merge(
+            $currentSponsorships,
+            Arr::get($response, 'data.viewer.sponsorshipsAsMaintainer.nodes')
+        );
 
         // pagination
         $hasNextPage = Arr::get($response, 'data.viewer.sponsorshipsAsMaintainer.pageInfo.hasNextPage');

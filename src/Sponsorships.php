@@ -35,12 +35,20 @@ class Sponsorships
     {
         if ($refreshCache) {
             $this->sponsorships = static::apiToDtoCollection($this->api->fetchAllSponsorships());
-            $this->cache->set('github-sponsorships', $this->sponsorships, Carbon::now()->addMinutes($this->cacheMinutes));
+            $this->cache->set(
+                'github-sponsorships',
+                $this->sponsorships,
+                Carbon::now()->addMinutes($this->cacheMinutes)
+            );
         } else {
             $data = $this->cache->get('github-sponsorships', null);
             if (!$data) {
                 $data = static::apiToDtoCollection($this->api->fetchAllSponsorships());
-                $this->cache->set('github-sponsorships', $data, Carbon::now()->addMinutes($this->cacheMinutes));
+                $this->cache->set(
+                    'github-sponsorships',
+                    $data,
+                    Carbon::now()->addMinutes($this->cacheMinutes)
+                );
             }
             $this->sponsorships = $data;
         }
@@ -75,7 +83,7 @@ class Sponsorships
         return $this->sponsorships->where('sponsor.email', $email)->first();
     }
 
-    protected static function sponsorshipFromApiData ($data): SponsorshipData
+    protected static function sponsorshipFromApiData($data): SponsorshipData
     {
         $data['sponsor'] = $data['sponsorEntity'];
         unset($data['sponsorEntity']);
