@@ -21,27 +21,27 @@ use Illuminate\Support\Arr;
  */
 class GithubGraphApi
 {
-    protected string $token;
     protected PendingRequest $http_client;
 
     /**
      * GithubGraphApi constructor.
-     * @param string $token GitHub API auth token
      * @param PendingRequest|null $request The HTTP client to perform the API call.
      */
-    public function __construct(string $token, ?PendingRequest $request = null)
+    public function __construct(?PendingRequest $request = null)
     {
-        $this->token = $token;
         $this->http_client = $request ?? new PendingRequest;
     }
 
     /**
+     * @param string $token
      * @return array
+     * @throws FailedApiConnectionException
+     * @throws UnauthorizedException
      * @throws WrongApiResponseException
      */
-    public function sponsorships(): array
+    public function sponsorships(string $token): array
     {
-        return static::fetchAllSponsorships($this->http_client, $this->token);
+        return static::fetchAllSponsorships($this->http_client, $token);
     }
 
     /**
@@ -52,6 +52,8 @@ class GithubGraphApi
      * @param array $currentSponsorships Used internally for pagination.
      * @param null $afterCursor Used internally for pagination.
      * @return array Array of SponsorshipData.
+     * @throws FailedApiConnectionException
+     * @throws UnauthorizedException
      * @throws WrongApiResponseException
      */
     protected static function fetchAllSponsorships(
@@ -112,25 +114,42 @@ EOT,
 
         // some validation
         if (!$response) {
-            throw WrongApiResponseException::isNull();
-        } elseif (!Arr::get($response, 'data')) {
+            throw new FailedApiConnectionException('Null response.');
+        }
+
+        $code = $response->getStatusCode();
+        if ($code == 401) {
+            throw new UnauthorizedException;
+        } else if ($code >= 400 && $code <= 599) {
+            throw new FailedApiConnectionException('Response code '  . $response->getStatusCode() . '.');
+        }
+
+        $body = $response->getBody()->getContents();
+
+        try {
+            $body = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $e) {
+            throw WrongApiResponseException::invalidJson();
+        }
+
+        if (!Arr::get($body, 'data')) {
             throw WrongApiResponseException::noData();
-        } elseif (!Arr::get($response, 'data.viewer')) {
+        } elseif (!Arr::get($body, 'data.viewer')) {
             throw WrongApiResponseException::missingField('viewer');
-        } elseif (!Arr::get($response, 'data.viewer.sponsorshipsAsMaintainer')) {
+        } elseif (!Arr::get($body, 'data.viewer.sponsorshipsAsMaintainer')) {
             throw WrongApiResponseException::missingField('viewer.sponsorshipsAsMaintainer');
-        } elseif (Arr::get($response, 'data.viewer.sponsorshipsAsMaintainer.nodes') === null) {
+        } elseif (Arr::get($body, 'data.viewer.sponsorshipsAsMaintainer.nodes') === null) {
             throw WrongApiResponseException::missingField('viewer.sponsorshipsAsMaintainer.nodes');
         }
 
         $currentSponsorships = array_merge(
             $currentSponsorships,
-            Arr::get($response, 'data.viewer.sponsorshipsAsMaintainer.nodes')
+            Arr::get($body, 'data.viewer.sponsorshipsAsMaintainer.nodes')
         );
 
         // pagination
-        $hasNextPage = Arr::get($response, 'data.viewer.sponsorshipsAsMaintainer.pageInfo.hasNextPage');
-        $endCursor = Arr::get($response, 'data.viewer.sponsorshipsAsMaintainer.pageInfo.endCursor');
+        $hasNextPage = Arr::get($body, 'data.viewer.sponsorshipsAsMaintainer.pageInfo.hasNextPage');
+        $endCursor = Arr::get($body, 'data.viewer.sponsorshipsAsMaintainer.pageInfo.endCursor');
 
         if (! $hasNextPage) {
             return $currentSponsorships;

@@ -7,8 +7,8 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+PSR-4 PHP package to retrieve Github sponsorships and
+check whether a given user is a sponsor or not.
 
 ## Install
 
@@ -38,6 +38,10 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ``` bash
 $ composer test
 ```
+
+## To do
+
+- [ ] Change GithubGraphApi to use Psr\Http\Client\ClientInterface and Psr\Http\Message\RequestInterface
 
 ## Contributing
 

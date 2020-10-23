@@ -11,6 +11,11 @@ class WrongApiResponseException extends Exception
         return new static("The request failed.");
     }
 
+    public static function invalidJson(): self
+    {
+        return new static("The response is not proper JSON.");
+    }
+
     public static function noData(): self
     {
         return new static("There is no data in the response.");
