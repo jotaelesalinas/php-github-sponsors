@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace JLSalinas\GithubSponsors;
 
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Cache\ArrayStore;
 use Illuminate\Cache\Repository;
-use Illuminate\Http\Client\PendingRequest;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 
@@ -40,41 +38,33 @@ class SponsorshipsTest extends TestCase
 
     public function testThrowsWithMissingToken()
     {
-        $gh_sponsorships = new GithubSponsorships($this->cache, new GithubGraphApi);
+        $gh_sponsorships = new GithubSponsorships();
         $this->expectException(MissingTokenException::class);
         $gh_sponsorships->all();
     }
 
     public function testThrowsWithWrongTokenSet()
     {
-        $gh_sponsorships = new GithubSponsorships($this->cache, new GithubGraphApi);
+        $gh_sponsorships = new GithubSponsorships();
+        $this->expectException(UnauthorizedException::class);
+        $gh_sponsorships->setToken($this->wrong_token)->all();
+    }
+
+    public function testThrowsWithWrongTokenWith()
+    {
+        $gh_sponsorships = new GithubSponsorships();
         $this->expectException(UnauthorizedException::class);
         $gh_sponsorships->withToken($this->wrong_token)->all();
     }
 
-    public function _testThrowsWithWrongTokenWith()
-    {
-        $gh_sponsorships = new GithubSponsorships($this->cache, new GithubGraphApi);
-        $this->expectException(UnauthorizedException::class);
-        $gh_sponsorships->setToken()->all();
-    }
-
     public function testGetsEmptyNotCached()
     {
-        $cache = Mockery::mock(Cache::class);
-        $cache->shouldReceive('get')
-            ->once()
-            ->andReturn(null);
-        $cache->shouldReceive('set')
-            ->once()
-            ->andReturn(null);
-
         $api = Mockery::mock(GithubGraphApi::class);
         $api->shouldReceive('sponsorships')
             ->once()
             ->andReturn([]);
 
-        $GhSponsorships = new GithubSponsorships($cache, $api);
+        $GhSponsorships = new GithubSponsorships(null, 60, $api);
 
         $data = $GhSponsorships->withToken($this->wrong_token)->all();
         $this->assertEquals(0, count($data));
@@ -93,7 +83,7 @@ class SponsorshipsTest extends TestCase
         $api->shouldReceive('sponsorships')
             ->never();
 
-        $GhSponsorships = new GithubSponsorships($cache, $api);
+        $GhSponsorships = new GithubSponsorships($cache, 60, $api);
 
         $data = $GhSponsorships->withToken($this->wrong_token)->all();
         $this->assertEquals(0, count($data));
@@ -101,20 +91,12 @@ class SponsorshipsTest extends TestCase
 
     public function testGetsOnePageNotCached()
     {
-        $cache = Mockery::mock(Cache::class);
-        $cache->shouldReceive('get')
-            ->once()
-            ->andReturn(null);
-        $cache->shouldReceive('set')
-            ->once()
-            ->andReturn(null);
-
         $api = Mockery::mock(GithubGraphApi::class);
         $api->shouldReceive('sponsorships')
             ->once()
             ->andReturn(self::response('ok_seven'));
 
-        $GhSponsorships = new GithubSponsorships($cache, $api);
+        $GhSponsorships = new GithubSponsorships(null, 60, $api);
 
         $data = $GhSponsorships->withToken($this->wrong_token)->all();
         $this->assertEquals(7, count($data));
@@ -133,7 +115,7 @@ class SponsorshipsTest extends TestCase
         $api->shouldReceive('sponsorships')
             ->never();
 
-        $GhSponsorships = new GithubSponsorships($cache, $api);
+        $GhSponsorships = new GithubSponsorships($cache, 60, $api);
 
         $data = $GhSponsorships->withToken($this->wrong_token)->all();
         $this->assertEquals(7, count($data));
@@ -152,7 +134,7 @@ class SponsorshipsTest extends TestCase
         $api->shouldReceive('sponsorships')
             ->never();
 
-        $GhSponsorships = (new GithubSponsorships($cache, $api))
+        $GhSponsorships = (new GithubSponsorships($cache, 60, $api))
             ->setToken($this->wrong_token);
 
         $data = $GhSponsorships->getBySponsorId(0);
@@ -193,7 +175,7 @@ class SponsorshipsTest extends TestCase
         $api->shouldReceive('sponsorships')
             ->never();
 
-        $GhSponsorships = (new GithubSponsorships($cache, $api))
+        $GhSponsorships = (new GithubSponsorships($cache, 60, $api))
             ->setToken($this->wrong_token);
 
         $data = $GhSponsorships->getBySponsorLogin('asdf');
@@ -222,7 +204,7 @@ class SponsorshipsTest extends TestCase
         $api->shouldReceive('sponsorships')
             ->never();
 
-        $GhSponsorships = (new GithubSponsorships($cache, $api))
+        $GhSponsorships = (new GithubSponsorships($cache, 60, $api))
             ->setToken($this->wrong_token);
 
         $data = $GhSponsorships->getBySponsorEmail('asdf@example.com');

@@ -20,13 +20,77 @@ $ composer require jotaelesalinas/php-github-sponsors
 
 ## Usage
 
-``` php
-use JLSalinas\GithubSponsors\Support\GithubGraphApi;
-use Psr\SimpleCache\CacheInterface as Cache; // Laravel's cache() will do, among many others
-use Illuminate\Http\Client\PendingRequest;   // Again, Laravel's Http should do
+Basic usage (no caching):
 
-$ghsponsors = new JLSalinas\GithubSponsors();
-echo $skeleton->echoPhrase('Hello, League!');
+``` php
+use JLSalinas\GithubSponsors\GithubSponsorships;
+
+$token = 'super-secret-auth-token';
+
+$gh_sponsorships = new GithubSponsorships()->setToken($token);
+
+$sponsorships = $gh_sponsorships->all();
+$num_sponsorships = count($sponsorships);
+
+if ($num_sponsorships > 0) {
+    echo sprintf("You have %d sponsor%s:\n", $num_sponsorships, $num_sponsorships > 1 ? 's' : '');
+    var_dump($sponsorships);
+} else {
+    echo "You don't have any sponsor... yet!\n";
+}
+
+if (!$sponsorship = $gh_sponsorships->getBySponsorEmail('email@example.com')) {
+    echo "User with email email@example.com is not a sponsor.\n";
+} else {
+    echo "User with email email@example.com is a sponsor!\n";
+    var_dump($sponsorship);
+    // $sponsorship includes information about the tier, the sponsor and creation date
+}
+
+// Also available:
+// - getBySponsorLogin()
+// - getBySponsorId() -- as returned by Oauth and API
+```
+
+Caching options and per-request token:
+
+``` php
+use JLSalinas\GithubSponsors\GithubSponsorships;
+use JLSalinas\GithubSponsors\MissingTokenException;
+
+use Illuminate\Cache\ArrayStore as CacheStore;
+use Illuminate\Cache\Repository;
+
+$token = 'super-secret-auth-token';
+
+$cache = new Repository(new CacheStore);
+// or, in Laravel: $cache = cache()->store();
+
+$gh_sponsorships = new GithubSponsorships($cache, 60); // cache for 60 minutes
+
+$sponsorships = $gh_sponsorships->withToken($token)->all();
+
+try {
+    $sponsorship = $gh_sponsorships->getBySponsorEmail('email@example.com');
+} catch (MissingTokenException $e) {
+    echo "The previous token was used only for the very next request.\n";
+}
+
+$sponsorship = $gh_sponsorships->withToken($token)
+                               ->getBySponsorEmail('email@example.com');
+
+if (!$sponsorship) {
+    echo "User with email email@example.com is not a sponsor.";
+} else {
+    echo "User with email email@example.com is a sponsor!";
+    var_dump($sponsorship);
+    // $sponsorship includes information about the tier, the sponsor and creation date
+}
+
+// if we want to ignore the cache and force fetching data from GitHub:
+$sponsorship = $gh_sponsorships->withToken($token)
+                               ->ignoringCache()
+                               ->getBySponsorEmail('email@example.com');
 ```
 
 ## Change log
@@ -41,7 +105,9 @@ $ composer test
 
 ## To do
 
-- [ ] Change GithubGraphApi to use Psr\Http\Client\ClientInterface and Psr\Http\Message\RequestInterface
+- [ ] Change GithubGraphApi to use Psr\Http\Client\ClientInterface and
+      Psr\Http\Message\RequestInterface instead of Illuminate\Http\Client\PendingRequest.
+      Use guzzle as implementation.
 
 ## Contributing
 

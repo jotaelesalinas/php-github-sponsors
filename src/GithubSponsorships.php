@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace JLSalinas\GithubSponsors;
 
+use Illuminate\Cache\NullStore;
+use Illuminate\Cache\Repository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
 
@@ -33,11 +35,11 @@ class GithubSponsorships
      * @param GithubGraphApi $api
      * @param int $cacheMinutes
      */
-    public function __construct(Cache $cache, GithubGraphApi $api, int $cacheMinutes = 60)
+    public function __construct(Cache $cache = null, int $cacheMinutes = 60, GithubGraphApi $api = null)
     {
-        $this->api = $api;
+        $this->cache = $cache ?? new Repository(new NullStore);
+        $this->api = $api ?? new GithubGraphApi;
         $this->cacheMinutes = $cacheMinutes;
-        $this->cache = $cache;
     }
 
     /**
