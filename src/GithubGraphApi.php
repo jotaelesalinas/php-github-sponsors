@@ -120,7 +120,7 @@ EOT,
         $code = $response->getStatusCode();
         if ($code == 401) {
             throw new UnauthorizedException;
-        } else if ($code >= 400 && $code <= 599) {
+        } elseif ($code >= 400 && $code <= 599) {
             throw new FailedApiConnectionException('Response code '  . $response->getStatusCode() . '.');
         }
 

@@ -6,7 +6,8 @@ use Exception;
 
 class UnauthorizedException extends Exception
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct('Access to the API was denied.');
     }
 }
